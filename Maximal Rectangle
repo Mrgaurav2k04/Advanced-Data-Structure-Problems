@@ -1,0 +1,44 @@
+class Solution {
+public:
+
+    int largestRectangleArea(vector<int>& heights) {
+        int n=heights.size();
+        vector<int> right(n),left(n);
+        stack<int> s;
+        for(int i=n-1;i>=0;i--){
+            while(!s.empty() && heights[s.top()]>=heights[i]) s.pop();
+            right[i]=s.empty()?n : s.top();
+            s.push(i);
+        }while(!s.empty()){
+            s.pop();
+        }for(int i=0;i<n;i++){
+            while(!s.empty() && heights[s.top()]>=heights[i]) s.pop();
+            left[i]=s.empty()?-1 : s.top();
+            s.push(i);
+        }
+        int maxa=0;  
+        for(int i=0;i<n;i++){
+            int area=(right[i]-left[i]-1)*heights[i];
+            maxa=max(maxa,area);
+        }return maxa;
+}
+    int maximalRectangle(vector<vector<char>>& matrix) {
+
+        
+        int row=matrix.size();
+        int col=matrix[0].size();
+        vector<int> v(col,0);
+        int ma=0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(matrix[i][j]=='0'){
+                    v[j]=0;
+                }else{
+                    v[j]+=1;
+                }
+                
+            }int s=largestRectangleArea(v);
+            ma=max(s,ma);
+        }return ma;
+    }
+};
