@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    bool Canfinish(vector<int>& arr,int k,long long mid){
+        int painters=1;
+        long long sum=0;
+        for(int a:arr){
+            if(sum+a<=mid){
+                sum+=a;
+            }else{
+                painters++;
+                sum=a;
+            }
+        }return painters<=k;
+    }
+    int minTime(vector<int>& arr, int k) {
+        // code here
+        long long low = 0;
+        long long high = 0;
+        for (int board : arr) {
+            if(board>low){
+              low = board; 
+            } 
+            high += board;
+        }  
+        long long ans = high;
+        while(low<=high){
+            long long mid=low+(high-low)/2;
+            if(Canfinish(arr,k,mid)){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }return ans;
+        
+    }
+};
