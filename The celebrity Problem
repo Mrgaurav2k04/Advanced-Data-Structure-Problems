@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        // code here
+        int row=mat.size();
+        stack<int> st;
+        for(int i=0;i<row;i++){
+            st.push(i);
+        }
+        while(st.size()>1){
+            int i,j;
+            i=st.top();
+            st.pop();
+            j=st.top();
+            st.pop();
+            if(mat[i][j]==1){
+                st.push(j);
+            }else{
+                st.push(i);
+            }
+        }if(st.empty()){
+            return -1;
+        }int celeb=st.top();
+        for(int i=0;i<row;i++){
+            if(i==celeb){
+                continue;
+            }else if(mat[celeb][i]==1 || mat[i][celeb]==0){
+                return -1;
+            }
+        }return celeb;
+    }
+};
