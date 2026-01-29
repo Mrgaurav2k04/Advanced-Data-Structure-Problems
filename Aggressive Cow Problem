@@ -1,0 +1,40 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+bool CanPlace(vector<int>& arr,int k,int mid){
+    int c=1;
+    int p=arr[0];
+    for(int j=1;j<arr.size();j++){
+        if(arr[j]-p>=mid){
+            c++;
+            p=arr[j];
+        }
+    }return c>=k;
+}
+
+int main() {
+    int t,poll,k;
+    cin>>t>>poll>>k;
+    vector<int> cows(poll);
+    for(int i=0;i<poll;i++){
+        cin>>cows[i];
+    }
+    sort(cows.begin(),cows.end());
+    int l=1;
+    int h=cows[poll-1]-cows[0];
+    int ans=0;
+    while(l<=h){
+        int mid=l+(h-l)/2;
+        if(CanPlace(cows,k,mid)){
+            ans=mid;
+            l=mid+1;
+        }else{
+            h=mid-1;
+        }
+        
+    }cout<<ans;
+
+    return 0;
+}
