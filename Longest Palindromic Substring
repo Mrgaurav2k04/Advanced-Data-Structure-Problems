@@ -1,0 +1,37 @@
+def expand_around_center(s, left, right):
+    """Helper function to expand outwards and return the length of the palindrome."""
+    while left >= 0 and right < len(s) and s[left] == s[right]:
+        left -= 1
+        right += 1
+    # The loop exits when the condition s[left] == s[right] fails.
+    # The actual length is (right - 1) - (left + 1) + 1 = right - left - 1
+    return right - left - 1
+
+
+class Solution(object):
+    
+    def longestPalindrome(self, s):
+        n = len(s)
+        if n < 2:
+            return s
+        
+        start = 0
+        max_len = 1
+    
+        for i in range(n):
+            # Case 1: Odd length palindrome (center is s[i])
+            len1 = expand_around_center(s, i, i)
+        
+        # Case 2: Even length palindrome (center is s[i] and s[i+1])
+            len2 = expand_around_center(s, i, i + 1)
+        
+        # Take the maximum length found from the two cases
+            current_max_len = max(len1, len2)
+        
+            if current_max_len > max_len:
+                max_len = current_max_len
+            # Calculate the new starting index based on the center (i) and the new length
+            # start = i - (max_len - 1) // 2 
+                start = i - (max_len - 1) // 2 
+            
+        return s[start : start + max_len]
