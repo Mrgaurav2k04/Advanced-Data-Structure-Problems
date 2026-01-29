@@ -1,0 +1,23 @@
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        s=s.lstrip()
+        if not s:return 0 
+        x=1
+        startindex=0
+        if(s[0]=="-"):
+            x=-1
+            startindex=1
+        elif(s[0]=="+"):
+            startindex=1
+        ind=-1
+        res = 0
+        for i in range(startindex, len(s)):
+            if not s[i].isdigit():
+                break
+            # 4. Convert char to int and add to result
+            res = res * 10 + (ord(s[i]) - ord('0'))
+        res = x * res
+        INT_MIN, INT_MAX = -2**31, 2**31 - 1
+        if res < INT_MIN: return INT_MIN
+        if res > INT_MAX: return INT_MAX
+        return res
