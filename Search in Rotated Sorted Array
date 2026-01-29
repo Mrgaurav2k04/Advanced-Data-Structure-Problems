@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int i = 0, j = n - 1;
+
+        // 1. Find the Pivot (Index of the smallest element)
+        while (i < j) {
+            int mid = i + (j - i) / 2;
+            if (nums[mid] > nums[j]) {
+                i = mid + 1; // Pivot is in the right half
+            } else {
+                j = mid; // Pivot is mid or in the left half
+            }
+        }
+        
+        int pivot = i;
+        
+        // 2. Decide which half to search
+        if (target >= nums[pivot] && target <= nums[n - 1]) {
+            return BinarySearch(nums, target, pivot, n - 1);
+        } else {
+            return BinarySearch(nums, target, 0, pivot - 1);
+        }
+    }
+
+    int BinarySearch(vector<int>& nums, int t, int i, int j) {
+        while (i <= j) {
+            int mid = i + (j - i) / 2;
+            if (nums[mid] == t) return mid;
+            if (nums[mid] < t) i = mid + 1;
+            else j = mid - 1;
+        }
+        return -1;
+    }
+};
