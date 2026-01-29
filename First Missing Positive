@@ -1,0 +1,25 @@
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums=set(nums)
+        nums=list(nums)
+        l=len(nums)
+        if(l==1):
+            if(nums[0]!=1):
+                return 1
+            else:
+                return 2
+        count=1
+        m=max(nums)
+        sortnums=sorted(nums)
+        for i in range(l):
+            if(sortnums[i]>0):
+                if(sortnums[i]==count):
+                    count=count+1
+                else:
+                    return count
+        return count
+                    
