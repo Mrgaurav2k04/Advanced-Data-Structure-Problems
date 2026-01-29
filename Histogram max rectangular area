@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    int getMaxArea(vector<int> &heights) {
+        // code here
+        int n=heights.size();
+        vector<int> right(n),left(n);
+        stack<int> s;
+        for(int i=n-1;i>=0;i--){
+            while(!s.empty() && heights[s.top()]>=heights[i]) s.pop();
+            right[i]=s.empty()?n : s.top();
+            s.push(i);
+        }while(!s.empty()){
+            s.pop();
+        }for(int i=0;i<n;i++){
+            while(!s.empty() && heights[s.top()]>=heights[i]) s.pop();
+            left[i]=s.empty()?-1 : s.top();
+            s.push(i);
+        }
+        int maxa=0;  
+        for(int i=0;i<n;i++){
+            int area=(right[i]-left[i]-1)*heights[i];
+            maxa=max(maxa,area);
+        }return maxa;
+}
+    
+};
