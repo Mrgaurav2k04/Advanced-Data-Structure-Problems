@@ -1,0 +1,24 @@
+class Solution(object):
+    def multiply(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        l1=len(num1)
+        l2=len(num2)
+        n1=0
+        n2=0
+        x=1
+        y=1
+        while(l1>0):
+            n1=n1+(ord(num1[l1-1])-ord('0'))*x
+            x=x*10
+            l1=l1-1
+        while(l2>0):
+            n2=n2+(ord(num2[l2-1])-ord('0'))*y
+            y=y*10
+            l2=l2-1
+        prod=n1*n2
+        str1=str(prod)
+        return str1
