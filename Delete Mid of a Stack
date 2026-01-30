@@ -1,0 +1,20 @@
+class Solution {
+  public:
+    // Function to delete middle element of a stack.
+    void dap(stack<int>& s,int mid){
+        if(s.size()==mid){
+            s.pop();
+            return;
+        }int temp=s.top();
+        s.pop();
+        dap(s,mid);
+        s.push(temp);
+        
+    }
+    void deleteMid(stack<int>& s) {
+        // code here..
+        int n =s.size();
+        int mid=floor((n+1)/2);
+        dap(s,mid);
+    }
+};
