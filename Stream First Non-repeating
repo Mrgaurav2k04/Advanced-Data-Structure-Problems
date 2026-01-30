@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    string firstNonRepeating(string &s) {
+        // code here
+        string result="";
+        
+        queue<char> q;
+        unordered_map<char,int> freq;
+        for(char i:s){
+            freq[i]++;
+            q.push(i);
+            while(!q.empty() && freq[q.front()]>1){
+                q.pop();
+            }if(q.empty()){
+                result+="#";
+            }else{
+                result+=q.front();
+            }
+        }return result;
+        
+    }
+};
