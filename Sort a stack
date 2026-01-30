@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    void insertStack(stack<int> &st,int k){
+        if(st.size()==0 || st.top()<=k){
+            st.push(k);
+            return;
+        }int z=st.top();
+        st.pop();
+        insertStack(st,k);
+        st.push(z);
+    }
+    void sortStack(stack<int> &st) {
+        // code here
+        if(st.size()==0){
+            return;
+        }int k=st.top();
+        st.pop();
+        sortStack(st);
+        insertStack(st,k);
+        
+    }
+};
