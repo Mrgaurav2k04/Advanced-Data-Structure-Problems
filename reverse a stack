@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    void insert(stack<int>& sk,int t){
+        if(sk.size()==0){
+            sk.push(t);
+            return;
+        }int k=sk.top();
+        sk.pop();
+        insert(sk,t);
+        sk.push(k);
+    }
+    void reverseStack(stack<int> &st) {
+        while(st.size()==0){
+            return;
+        }
+        int t=st.top();
+        st.pop();
+        reverseStack(st);
+        insert(st,t);
+        
+    }
+};
