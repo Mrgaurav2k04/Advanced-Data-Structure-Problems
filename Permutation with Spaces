@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    void insert(string ip,string op,vector<string>& sk){
+        if(ip.length()==0){
+            
+            sk.push_back(op);
+            
+            return;
+        }string op1=op;
+        string op2=op;
+        op1.push_back(' ');
+        op1.push_back(ip[0]);
+        op2.push_back(ip[0]);
+        string ip1=ip.substr(1);
+        insert(ip1,op1,sk);
+        insert(ip1,op2,sk);
+    }
+    vector<string> permutation(string s) {
+        // Code Here
+        vector<string> sk;
+        if(s.empty()) return sk;
+        string op="";
+        op.push_back(s[0]);
+        string ip=s.substr(1);
+        
+        insert(ip,op,sk);
+        return sk;
+    }
+};
