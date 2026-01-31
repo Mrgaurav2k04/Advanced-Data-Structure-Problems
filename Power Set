@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    void solve(string op,string ip,vector<string>& sk){
+        if(ip.length()==0){
+            if(!op.empty()){
+                sk.push_back(op);
+            }
+            return ;
+        }string op1=op;
+        string op2=op;
+        
+        op1.push_back(ip[0]);
+        ip.erase(ip.begin()+0);
+        solve(op1,ip,sk);
+        solve(op2,ip,sk);
+        
+    }
+    vector<string> AllPossibleStrings(string s) {
+        // Code here
+        string ip=s;
+        string op="";
+        vector<string> sk;
+        solve(op,ip,sk);
+        sort(sk.begin(),sk.end());
+        return sk;
+    }
+};
