@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    void solve(int l,int h,int n,string s,vector<string>& sk){
+        if(n==0){
+            sk.push_back(s);
+            return;
+        }string s1=s;
+        s1.push_back('1');
+        solve(l+1,h,n-1,s1,sk);
+        if(l>h){
+            string s2=s;
+            s2.push_back('0');
+            solve(l,h+1,n-1,s2,sk);
+        }
+        
+    }
+    vector<string> NBitBinary(int n) {
+        // Your code goes here
+        vector<string> sk;
+        string s="";
+        int l=0;
+        int h=0;
+        solve(l,h,n,s,sk);
+        return sk;
+    }
+};
