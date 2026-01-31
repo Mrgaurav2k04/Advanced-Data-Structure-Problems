@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void solve(int i,int j,string s,vector<string>& sk){
+        if(i==0 && j==0){
+            sk.push_back(s);
+            return;
+        }if(i!=0){
+            string s1=s;
+            s1.push_back('(');
+            solve(i-1,j,s1,sk);
+
+        }if(i<j){
+            string s2=s;
+            s2.push_back(')');
+            solve(i,j-1,s2,sk);
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> sk;
+        int i=n;
+        int j=n;
+        string s="";
+        solve(i,j,s,sk);
+        return sk;
+        
+    }
+};
