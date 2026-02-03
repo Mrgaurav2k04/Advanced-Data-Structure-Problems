@@ -1,0 +1,54 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = nullptr;
+    }
+};
+*/
+class Solution {
+  public:
+    void removeLoop(Node* head) {
+        // code here
+        if (!head || !head->next) return;
+
+        Node *slow = head, *fast = head;
+        bool loopExists = false;
+
+        // Phase 1: Detect Loop
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                loopExists = true;
+                break;
+            }
+        }
+
+        // Phase 2: Find the starting node of the loop and break it
+        if (loopExists) {
+            slow = head;
+            
+            // Special Case: Loop starts at the Head
+            if (slow == fast) {
+                while (fast->next != slow) {
+                    fast = fast->next;
+                }
+            } 
+            else {
+                // Standard Case: Loop starts somewhere in the middle
+                while (slow->next != fast->next) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+            }
+            // Phase 3: Break the loop
+            fast->next = nullptr;
+        
+    }
+}
+};
