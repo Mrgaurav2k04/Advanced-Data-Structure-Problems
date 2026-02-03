@@ -1,0 +1,48 @@
+/* Node is defined as
+  class Node {
+  public:
+    int data;
+    Node* next;
+
+    Node(int x) {
+        data = x;
+        next = nullptr;
+    }
+};
+*/
+class Solution {
+  public:
+    Node* segregate(Node* head) {
+        // code here
+        Node* zeros=new Node(-1);
+        Node* zerol=zeros;
+        Node* ones=new Node(-1);
+        Node* onel=ones;
+        Node* twos=new Node(-1);
+        Node* twol=twos;
+        Node* temp=head;
+        while(temp!=nullptr){
+            if(temp->data==0){
+                zerol->next=temp;
+                zerol=zerol->next;
+                temp=temp->next;
+                zerol->next=nullptr;
+                
+            }else if(temp->data==1){
+                onel->next=temp;
+                onel=onel->next;
+                temp=temp->next;
+                onel->next=nullptr;
+            }else{
+                twol->next=temp;
+                twol=twol->next;
+                temp=temp->next;
+                twol->next=nullptr;
+            }
+        }onel->next=twos->next;
+        zerol->next=ones->next;
+        
+        return zeros->next;
+        
+    }
+};
