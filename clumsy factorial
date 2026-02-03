@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int clumsy(int n) {
+        vector<int> sk;
+        int c=n;
+        sk.push_back(c);
+        int o=0;
+        for(int i=n-1;i>0;i--){
+            if(o==0){
+                int k=sk[sk.size()-1]*i;
+                sk.pop_back();
+                sk.push_back(k);
+            }else if(o==1){
+                int k=sk[sk.size()-1]/i;
+                sk.pop_back();
+                sk.push_back(k);
+            }else if(o==2){
+                sk.push_back(i);
+            }else{
+                sk.push_back(-1*i);
+            }o=(o+1)%4;
+        }int sum=0;
+        for(int z:sk){
+            sum+=z;
+        }return sum;
+    }
+};
