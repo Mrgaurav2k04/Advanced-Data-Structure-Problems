@@ -1,0 +1,34 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    bool check=true;
+    int dfs(Node* root){
+        if(root==nullptr) return 0;
+        int l=dfs(root->left);
+        int r=dfs(root->right);
+        int diff=abs(l-r);
+        if(diff>1) check=false;
+        return 1+max(l,r);
+    }
+    bool isBalanced(Node* root) {
+        // code here
+        int dif=dfs(root);
+        return check;
+        
+    }
+};
