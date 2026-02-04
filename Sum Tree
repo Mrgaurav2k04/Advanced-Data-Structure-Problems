@@ -1,0 +1,30 @@
+/*  Tree node
+struct Node
+{
+    int data;
+    Node* left, * right;
+}; */
+
+// Should return true if tree is Sum Tree, else false
+class Solution {
+  public:
+    int checksum(Node* root,bool& check){
+        if(root==nullptr) return 0;
+        if(root->left==nullptr && root->right==nullptr){
+            return root->data;
+        }int l=checksum(root->left,check);
+        int r=checksum(root->right,check);
+        if(root->data!=l+r){
+            check=false;
+            return 0;
+        }
+        return root->data+l+r;
+        
+    }
+    bool isSumTree(Node* root) {
+        // Your code here
+        bool check=true;
+        checksum(root,check);
+        return check;
+    }
+};
