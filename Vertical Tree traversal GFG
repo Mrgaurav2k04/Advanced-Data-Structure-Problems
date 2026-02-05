@@ -1,0 +1,50 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<vector<int>> verticalOrder(Node *root) {
+        // code here
+        vector<vector<int>> out;
+        queue<pair<Node*,int>> q;
+        map<int, vector<int>> uom;
+        if(root==nullptr){
+            return out;
+        }
+        q.push({root,0});
+        while(!q.empty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                pair<Node*,int> curr=q.front();
+                Node* temp=curr.first;
+                int c=curr.second;
+                uom[c].push_back(temp->data);
+                q.pop();
+                if(temp->left){
+                    q.push({temp->left,c-1});
+                }if(temp->right){
+                    q.push({temp->right,c+1});
+                }
+            }
+
+        // }for(auto& pair:uom){
+        //     sort(pair.second.begin(),pair.second.end());
+        }for(auto const&[c,pair]:uom){
+            out.push_back(pair);
+        }
+        return out;
+
+    }
+};
