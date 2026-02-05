@@ -1,40 +1,61 @@
-// Online C++ compiler to run C++ program online
 #include <iostream>
 #include <algorithm>
 #include <vector>
+
 using namespace std;
-bool CanPlace(vector<int>& arr,int k,int mid){
-    int c=1;
-    int p=arr[0];
-    for(int j=1;j<arr.size();j++){
-        if(arr[j]-p>=mid){
-            c++;
-            p=arr[j];
+
+// Function to check if we can place k cows with at least 'mid' distance
+bool CanPlace(vector<int>& arr, int k, int mid) {
+    int count = 1; // Place the first cow at the first stall
+    int last_pos = arr[0];
+    
+    for (int j = 1; j < arr.size(); j++) {
+        if (arr[j] - last_pos >= mid) {
+            count++;
+            last_pos = arr[j];
+            if (count >= k) return true; // Optimization: exit early
         }
-    }return c>=k;
+    }
+    return false;
+}
+
+void solve() {
+    int n, k;
+    if (!(cin >> n >> k)) return; // Read number of stalls and cows
+    
+    vector<int> stalls(n);
+    for (int i = 0; i < n; i++) {
+        cin >> stalls[i];
+    }
+    
+    sort(stalls.begin(), stalls.end());
+
+    int low = 1;
+    int high = stalls[n - 1] - stalls[0];
+    int ans = 0;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (CanPlace(stalls, k, mid)) {
+            ans = mid;    // Try for a larger distance
+            low = mid + 1;
+        } else {
+            high = mid - 1; // Distance too large, reduce it
+        }
+    }
+    cout << ans << "\n";
 }
 
 int main() {
-    int t,poll,k;
-    cin>>t>>poll>>k;
-    vector<int> cows(poll);
-    for(int i=0;i<poll;i++){
-        cin>>cows[i];
+    // Fast I/O for competitive programming
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    if (!(cin >> t)) return 0; // Read number of test cases
+    while (t--) {
+        solve();
     }
-    sort(cows.begin(),cows.end());
-    int l=1;
-    int h=cows[poll-1]-cows[0];
-    int ans=0;
-    while(l<=h){
-        int mid=l+(h-l)/2;
-        if(CanPlace(cows,k,mid)){
-            ans=mid;
-            l=mid+1;
-        }else{
-            h=mid-1;
-        }
-        
-    }cout<<ans;
 
     return 0;
 }
