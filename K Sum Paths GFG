@@ -1,0 +1,46 @@
+/*
+class Node {
+  public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    int count = 0;
+    
+    void solve(Node* root, long long current_sum, int k, unordered_map<long long, int>& mp) {
+        if (!root) return;
+
+        // Update the current path sum
+        current_sum += root->data;
+
+        // 1. Check if there's a prefix sum that makes the remaining path equal to k
+        if (mp.count(current_sum - k)) {
+            count += mp[current_sum - k];
+        }
+
+        // 2. Add current_sum to the map so children can use it
+        mp[current_sum]++;
+
+        // 3. Move downward to children
+        solve(root->left, current_sum, k, mp);
+        solve(root->right, current_sum, k, mp);
+
+        // 4. Backtrack: Remove current_sum from map before moving back up
+        // This ensures we only use sums from the CURRENT downward path
+        mp[current_sum]--;
+    }
+    int countAllPaths(Node *root, int k) {
+        unordered_map<long long, int> mp;
+        mp[0] = 1; // Base case: a path sum of 0 exists by default (empty path)
+        solve(root, 0, k, mp);
+        return count;
+    }
+};
