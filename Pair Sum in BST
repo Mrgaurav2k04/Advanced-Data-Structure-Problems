@@ -1,0 +1,47 @@
+/*
+Node is as follows
+class Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void flattenBST(Node* root,Node* &head){
+        if(root==NULL){
+            return;
+        }flattenBST(root->right,head);
+        root->right=head;
+        if(head){
+            head->left=root;
+        }head=root;
+        flattenBST(root->left,head);
+    }
+    
+    bool findTarget(Node *root, int target) {
+        Node* head=nullptr;
+        flattenBST(root,head);
+        Node* tail=head;
+        while(tail && tail->right){
+            tail=tail->right;
+        }while(head != nullptr && tail != nullptr && tail!=head){
+            int sum=head->data+tail->data;
+            if(sum==target){
+                return true;
+            }else if(sum>target){
+                tail=tail->left;
+            }else{
+                head=head->right;
+            }
+            if(tail->left==head) break;
+        }return false;
+        
+    }
+};
