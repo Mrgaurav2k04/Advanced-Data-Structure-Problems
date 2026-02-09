@@ -1,0 +1,47 @@
+/*
+class Node {
+  public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void getInorder(Node* root, vector<int>& list) {
+        if (!root) return;
+        getInorder(root->left, list);
+        list.push_back(root->data);
+        getInorder(root->right, list);
+    }
+    vector<int> merge(Node *root1, Node *root2) {
+        // code here
+        vector<int> list1, list2, merged;
+        
+        // 1. Get sorted arrays from both BSTs
+        getInorder(root1, list1);
+        getInorder(root2, list2);
+
+        // 2. Merge two sorted vectors
+        int i = 0, j = 0;
+        while (i < list1.size() && j < list2.size()) {
+            if (list1[i] < list2[j]) {
+                merged.push_back(list1[i++]);
+            } else {
+                merged.push_back(list2[j++]);
+            }
+        }
+
+        // 3. Collect remaining elements
+        while (i < list1.size()) merged.push_back(list1[i++]);
+        while (j < list2.size()) merged.push_back(list2[j++]);
+        
+    return merged;
+    }
+};
