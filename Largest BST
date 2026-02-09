@@ -1,0 +1,46 @@
+/* Tree node structure  used in the program
+
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};*/
+
+class Solution {
+  public:
+    struct Info{
+        bool isbst;
+        int size;
+        int minval;
+        int maxval;
+    };
+    Info check(Node* root,int& count){
+        if(!root){
+            return {true,0,INT_MAX,INT_MIN};
+        }
+        Info left=check(root->left,count);
+        Info right=check(root->right,count);
+        Info curr;
+        curr.size=left.size+right.size+1;
+        if(left.isbst && right.isbst && left.maxval<root->data && right.minval>root->data){
+            curr.isbst=true;
+            curr.minval=min(root->data,left.minval);
+            curr.maxval=max(root->data,right.maxval);
+            count=max(curr.size,count);
+        }else{
+            curr.isbst=false;
+        }
+        return curr;
+    }
+    int largestBst(Node *root) {
+        // Your code here
+        int count=0;
+        check(root,count);
+        return count;
+    }
+};
