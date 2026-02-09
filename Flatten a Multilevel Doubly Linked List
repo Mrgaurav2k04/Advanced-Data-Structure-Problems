@@ -1,0 +1,48 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+        Node* flatten(Node* head) {
+        if (!head) return nullptr;
+
+        Node* curr = head;
+        while (curr != nullptr) {
+            // If there's a child, we need to weave it in
+            if (curr->child != nullptr) {
+                Node* nextNode = curr->next;
+                
+                // 1. Flatten the child branch recursively
+                Node* childHead = flatten(curr->child);
+                
+                // 2. Connect curr to childHead
+                curr->next = childHead;
+                childHead->prev = curr;
+                curr->child = nullptr; // Crucial: clear the child pointer
+
+                // 3. Find the tail of the flattened child branch
+                Node* tail = childHead;
+                while (tail->next != nullptr) {
+                    tail = tail->next;
+                }
+
+                // 4. Connect tail to the original nextNode
+                if (nextNode != nullptr) {
+                    tail->next = nextNode;
+                    nextNode->prev = tail;
+                }
+            }
+            // Move to the next node in the flattened sequence
+            curr = curr->next;
+        }
+        return head;
+    }
+};
