@@ -1,0 +1,15 @@
+int Solution::solve(vector<int> &A) {
+    priority_queue<int,vector<int>,greater<int>> pq;
+    int c=0;
+    for(int i=0;i<A.size();i++){
+        pq.push(A[i]);
+    }while(pq.size()>1){
+        int x=pq.top();
+        pq.pop();
+        int z=pq.top();
+        pq.pop();
+        int su=x+z;
+        c+=su;
+        pq.push(su);
+    }return c;
+}
