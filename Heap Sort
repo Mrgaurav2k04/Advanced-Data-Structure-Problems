@@ -1,0 +1,43 @@
+// The functions should be written in a way that array become sorted
+// in increasing order when heapSort() is called.
+
+class Solution {
+  public:
+  void heapify(vector<int>& arr, int n, int i) {
+    int largest = i; 
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    // If left child is larger than root
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    // If right child is larger than largest so far
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    // If largest is not root, swap and continue heapifying
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+    // Function to sort an array using Heap Sort.
+    void heapSort(vector<int>& arr) {
+        // code here
+        int n = arr.size(); // <--- This is your 'n'
+
+    // Building the heap (Phase 1)
+    // The last non-leaf node is at (n/2 - 1)
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i); // Here, 'i' is the loop counter
+    }
+
+    // Sorting (Phase 2)
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]);
+        // After swap, the 'heap size' effectively shrinks
+        heapify(arr, i, 0); // n is now 'i', and we always heapify from root '0'
+    }
+    }
+};
