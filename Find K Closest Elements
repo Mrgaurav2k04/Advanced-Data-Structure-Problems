@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        // Shrink the window until its size is k
+        while (right - left >= k) {
+            int distLeft = abs(arr[left] - x);
+            int distRight = abs(arr[right] - x);
+
+            // If left is further, move left in. 
+            // If right is further or distances are equal, move right in.
+            // (Moving right in on a tie handles the "smaller value" rule).
+            if (distLeft > distRight) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        // Return the contiguous window
+        return vector<int>(arr.begin() + left, arr.begin() + left + k);
+
+    }
+};
+
+
+
+
+Another Approach:
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        priority_queue<pair<int,int>> pq;
+        for(int num:arr){
+            int dis=abs(num-x);
+            pq.push({dis,num});
+            if(pq.size()>k){
+                pq.pop();
+            }
+        }
+        vector<int> ar(k);
+        for(int i=k-1;i>=0;i--){
+            ar[i]=pq.top().second;
+            pq.pop();
+        }sort(ar.begin(),ar.end());
+        return ar;
+
+    }
+};
+
