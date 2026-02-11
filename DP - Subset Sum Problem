@@ -1,0 +1,65 @@
+//Recursion
+class Solution {
+  public:
+    bool solve(vector<int> arr,int sum,int s,int n){
+        if(sum==0) return true;
+        if(s==n && sum!=0) return false;
+        if(arr[s]<=sum){
+            return solve(arr,sum-arr[s],s+1,n) || solve(arr,sum,s+1,n);
+        }else{
+            return solve(arr,sum,s+1,n);
+        }
+    }
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n=arr.size();
+        return solve(arr,sum,0,n);
+    }
+};
+
+
+//Memoization
+class Solution {
+  public:
+    int solve(vector<int> arr,int sum,int n,vector<vector<int>>& tab){
+        if(sum==0) return 1;
+        if(n==0) return 0;
+        if (tab[n][sum] != -1) {
+            return tab[n][sum];
+        }
+        if(arr[n-1]<=sum){
+            tab[n][sum]=solve(arr,sum-arr[n-1],n-1,tab) || solve(arr,sum,n-1,tab);
+        }else{
+            tab[n][sum]=solve(arr,sum,n-1,tab);
+        }return tab[n][sum];
+        
+    }
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n=arr.size();
+        vector<vector<int>> tab(n+1,vector<int>(sum+1,-1));
+        
+        return (bool)solve(arr,sum,n,tab);
+    }
+};
+
+
+//Tabulation
+class Solution {
+  public:
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n=arr.size();
+        vector<vector<int>> tab(n+1,vector<int>(sum+1));
+        for(int i=0;i<=n;i++) tab[i][0]=1;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=sum;j++){
+                if(arr[i-1]<=j){
+                    tab[i][j]=tab[i-1][j-arr[i-1]] || tab[i-1][j];
+                }else{
+                    tab[i][j]=tab[i-1][j];
+                }
+            }
+        }return (bool)tab[n][sum];
+    }
+};
+
+
