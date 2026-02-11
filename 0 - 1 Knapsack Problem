@@ -1,0 +1,19 @@
+class Solution {
+  public:
+    int solve(int W,vector<int> &val,vector<int> &wt,int n,vector<vector<int>>& memo){
+        if(W==0 || n==0){
+            return 0;
+        }if (memo[n][W]!=-1) return memo[n][W];
+        if(wt[n-1]<=W){
+            memo[n][W]=max(val[n-1]+solve(W-wt[n-1],val,wt,n-1,memo),solve(W,val,wt,n-1,memo));
+            return memo[n][W];
+        }else{
+            memo[n][W]=solve(W,val,wt,n-1,memo);
+            return memo[n][W];
+    }}
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n=wt.size();
+        vector<vector<int>> memo(n+1,vector<int>(W+1,-1));
+         return solve(W,val,wt,n,memo);
+        }
+};
