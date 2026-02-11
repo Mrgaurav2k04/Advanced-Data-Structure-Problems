@@ -1,3 +1,5 @@
+
+//Memoization
 class Solution {
   public:
     int solve(int W,vector<int> &val,vector<int> &wt,int n,vector<vector<int>>& memo){
@@ -15,5 +17,28 @@ class Solution {
         int n=wt.size();
         vector<vector<int>> memo(n+1,vector<int>(W+1,-1));
          return solve(W,val,wt,n,memo);
+        }
+};
+
+
+//Tabulation
+
+class Solution {
+  public:
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n=wt.size();
+        vector<vector<int>> tab(n+1,vector<int>(W+1));
+        for(int i=0;i<=n;i++) tab[i][0]=0;
+        for(int i=0;i<=W;i++) tab[0][i]=0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=W;j++){
+                if(wt[i-1]<=j){
+                    tab[i][j]=max(val[i-1]+tab[i-1][j-wt[i-1]],tab[i-1][j]);
+                }else{
+                    tab[i][j]=tab[i-1][j];
+                }
+            }
+        }return tab[n][W];
+         
         }
 };
