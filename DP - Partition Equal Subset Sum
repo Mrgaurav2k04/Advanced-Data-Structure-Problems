@@ -1,0 +1,33 @@
+//Memoization nearly same as older subset sum problem
+
+class Solution {
+  public:
+    int solve(vector<int> arr,int sum,int n,vector<vector<int>>& tab){
+        if(sum==0) return 1;
+        if(n==0) return 0;
+        if (tab[n][sum] != -1) {
+            return tab[n][sum];
+        }
+        if(arr[n-1]<=sum){
+            tab[n][sum]=solve(arr,sum-arr[n-1],n-1,tab) || solve(arr,sum,n-1,tab);
+        }else{
+            tab[n][sum]=solve(arr,sum,n-1,tab);
+        }return tab[n][sum];
+        
+    }
+    bool equalPartition(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+        }if(sum%2!=0){
+            return false;
+        }else{
+            sum=sum/2;
+        }
+        vector<vector<int>> tab(n+1,vector<int>(sum+1,-1));
+        
+        return (bool)solve(arr,sum,n,tab);
+    }
+};
