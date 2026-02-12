@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int n,int sum,int target,int total,vector<vector<int>>& memo){
+        if(n==0){
+            if(sum==target){
+                return 1;
+            }else{
+                return 0;
+            }
+        }if(memo[n][sum+total]!=-1) return memo[n][sum+total];
+        int result=solve(nums,n-1,sum+nums[n-1],target,total,memo)+solve(nums,n-1,sum-nums[n-1],target,total,memo);
+        return memo[n][sum+total]=result;
+    }
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n=nums.size();
+        int total=0;
+        for(int n:nums){
+            total+=n;
+        }
+        vector<vector<int>> memo(n+1,vector<int>(2*total+1,-1));
+        return solve(nums,n,0,target,total,memo);
+    }
+};
