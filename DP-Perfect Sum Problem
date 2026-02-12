@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    int solve(vector<int> arr,int sum,int n,vector<vector<int>>& tab){
+        if(n==0){ 
+            if(sum==0) {
+                return 1;
+            }else{
+            return 0;
+        }}
+        if (tab[n][sum] != -1) {
+            return tab[n][sum];
+        }
+        if(arr[n-1]<=sum){
+            tab[n][sum]=solve(arr,sum-arr[n-1],n-1,tab) + solve(arr,sum,n-1,tab);
+        }else{
+            tab[n][sum]=solve(arr,sum,n-1,tab);
+        }return tab[n][sum];
+        
+    }
+    int perfectSum(vector<int>& arr, int target) {
+        // code here
+        int n=arr.size();
+        vector<vector<int>> tab(n+1,vector<int>(target+1,-1));
+        return solve(arr,target,n,tab);
+    }
+};
