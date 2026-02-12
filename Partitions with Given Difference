@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    int solve(vector<int>& arr,int sum1,int target,int n,vector<vector<int>>& tab){
+        if(n==0){
+            if(sum1==target){
+                return 1;
+            }else{
+                return 0;
+            }
+        }if(tab[n][sum1]!=-1) return tab[n][sum1];
+        tab[n][sum1]=solve(arr,sum1+arr[n-1],target,n-1,tab)+solve(arr,sum1,target,n-1,tab);
+        return tab[n][sum1];
+    }
+    int countPartitions(vector<int>& arr, int diff) {
+        // Code here
+        int totalsum=0;
+        int n=arr.size();
+        for(int num:arr){
+            totalsum+=num;
+        }
+        if((totalsum+diff)%2!=0){
+            return 0;
+        }
+        int target=(totalsum+diff)/2;
+        vector<vector<int>> tab(n+1,vector<int>(totalsum+1,-1));
+        return solve(arr,0,target,n,tab);
+    }
+};
