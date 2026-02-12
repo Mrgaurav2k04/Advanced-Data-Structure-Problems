@@ -1,0 +1,20 @@
+class Solution {
+  public:
+    int solve(vector<int>& val,vector<int>& wt,int n, int W,vector<vector<int>>& tab){
+        if(W==0|| n==0) return 0;
+        if(tab[n][W]!=-1) return tab[n][W];
+        if(wt[n-1]<=W){
+            tab[n][W]=max(val[n-1]+solve(val,wt,n,W-wt[n-1],tab),solve(val,wt,n-1,W,tab));
+            return tab[n][W];
+        }else{
+            tab[n][W]=solve(val,wt,n-1,W,tab);
+            return tab[n][W];
+        }
+    }
+    int knapSack(vector<int>& val, vector<int>& wt, int capacity) {
+        // code here
+        int n=val.size();
+        vector<vector<int>> tab(n+1,vector<int>(capacity+1,-1));
+        return solve(val,wt,n,capacity,tab);
+    }
+};
