@@ -1,6 +1,6 @@
 class Solution {
   public:
-    int solve(vector<int> arr,int sum,int n,vector<vector<int>>& tab){
+    int solve(vector<int>& arr,int sum,int n,vector<vector<int>>& tab){
         if(n==0){ 
             if(sum==0) {
                 return 1;
