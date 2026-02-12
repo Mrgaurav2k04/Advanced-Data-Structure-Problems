@@ -1,0 +1,25 @@
+class Solution {
+
+  public:
+    int mini=INT_MAX;
+    void diff(vector<int>& arr,int sum1,int sum2,int n,vector<vector<int>>& memo){
+        if(n==0){
+            mini=min(mini,abs(sum1-sum2));
+            return;
+        }if(memo[n][sum1]!=-1) return ;
+        memo[n][sum1]=1;
+        diff(arr,sum1+arr[n-1],sum2,n-1,memo);
+        diff(arr,sum1,sum2+arr[n-1],n-1,memo);
+    }
+    int minDifference(vector<int>& arr) {
+        // Your code goes here
+        int n=arr.size();
+        int totalsum=0;
+        for(int i:arr){
+            totalsum+=i;
+        }
+        vector<vector<int>> memo(n+1,vector<int>(totalsum+1,-1));
+        diff(arr,0,0,n,memo);
+        return mini;
+    }
+};
