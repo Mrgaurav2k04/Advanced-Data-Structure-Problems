@@ -1,3 +1,4 @@
+//Memoization
 class Solution {
 public:
     int solve(string& text1,string& text2,int n1,int n2,vector<vector<int>>& tab){
@@ -18,3 +19,22 @@ public:
         return solve(text1,text2,nt1,nt2,tab);
     }
 };
+
+
+//Tabulation
+
+int longestCommonSubsequence(string text1, string text2) {
+        int nt1=text1.length();
+        int nt2=text2.length();
+        vector<vector<int>> tab(nt1+1,vector<int>(nt2+1,0));
+        // return solve(text1,text2,nt1,nt2,tab);
+        for(int i=1;i<=nt1;i++){
+            for(int j=1;j<=nt2;j++){
+                if(text1[i-1]==text2[j-1]){
+                    tab[i][j]=1+tab[i-1][j-1];
+                }else{
+                    tab[i][j]=max(tab[i-1][j],tab[i][j-1]);
+                }
+            }
+        }return tab[nt1][nt2];
+    }
