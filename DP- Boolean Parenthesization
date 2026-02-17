@@ -1,0 +1,40 @@
+// User function Template for C++
+class Solution {
+
+public:
+    int solve(string &s, int i, int j, bool isTrue,vector<vector<vector<int>>>& dp) {
+        if (i > j) return 0;
+        if (i == j) {
+            if (isTrue) return s[i] == 'T';
+            else return s[i] == 'F';
+        }
+        if(dp[i][j][isTrue]!=-1) return dp[i][j][isTrue];
+        int ways = 0;
+        for (int k = i + 1; k <= j - 1; k += 2) {
+            int lt = solve(s, i, k - 1, true,dp);
+            int lf = solve(s, i, k - 1, false,dp);
+            int rt = solve(s, k + 1, j, true,dp);
+            int rf = solve(s, k + 1, j, false,dp);
+            if (s[k] == '&') {
+                if (isTrue) ways += lt * rt;
+                else ways += lt * rf + lf * rt + lf * rf;
+            }
+            else if (s[k] == '|') {
+                if (isTrue) ways += lt * rt + lt * rf + lf * rt;
+                else ways += lf * rf;
+            }
+            else if (s[k] == '^') {
+                if (isTrue) ways += lt * rf + lf * rt;
+                else ways += lt * rt + lf * rf;
+            }
+        }
+
+        return dp[i][j][isTrue]=ways;
+    }
+    int countWays(string &s) {
+        vector<vector<vector<int>>> dp(s.length()+1, vector<vector<int>>(s.length()+1, vector<int>(2, -1)));
+        return solve(s, 0, s.length() - 1, true,dp);
+        
+        
+    }
+};
