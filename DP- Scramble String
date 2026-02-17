@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int solve(string &s1, string &s2, int i, int j, int len, vector<vector<vector<int>>>& dp) {
+        bool match = true;
+        for(int k = 0; k < len; k++) {
+            if(s1[i + k] != s2[j + k]) {
+                match = false;
+                break;
+            }
+        }
+        if(match) return 1;
+
+        if (dp[i][j][len] != -1) return dp[i][j][len];
+
+        for (int k = 1; k < len; k++) {
+
+            bool noSwap = solve(s1, s2, i, j, k, dp) && 
+                          solve(s1, s2, i + k, j + k, len - k, dp);
+            
+            if (noSwap) return dp[i][j][len] = 1;
+            bool swap = solve(s1, s2, i, j + len - k, k, dp) && 
+                        solve(s1, s2, i + k, j, len - k, dp);
+            
+            if (swap) return dp[i][j][len] = 1;
+        }
+
+        return dp[i][j][len] = 0;
+    }
+
+    bool isScramble(string s1, string s2) {
+        int n = s1.length();
+        if (n != s2.length()) return false;
+
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(n, vector<int>(n + 1, -1)));
+        
+        return (bool)solve(s1, s2, 0, 0, n, dp);
+    }
+};
