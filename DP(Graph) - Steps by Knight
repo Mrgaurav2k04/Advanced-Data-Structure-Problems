@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int minStepToReachTarget(vector<int>& knightPos, vector<int>& targetPos, int n) {
+        queue<pair<pair<int,int>,int>> qu;
+        int xx[]={2,2,-2,-2,1,1,-1,-1};
+        int yy[]={1,-1,1,-1,2,-2,2,-2};
+        vector<vector<int>> visited(n+1,vector<int>(n+1,0));
+        qu.push({{knightPos[0],knightPos[1]},0});
+        visited[knightPos[0]][knightPos[1]]=1;
+        while(!qu.empty()){
+            auto cur=qu.front();
+            qu.pop();
+            int x=cur.first.first;
+            int y=cur.first.second;
+            int d=cur.second;
+            if(x==targetPos[0] && y==targetPos[1]) return d;
+            for(int i=0;i<8;i++){
+                int nx=x+xx[i];
+                int ny=y+yy[i];
+                if(nx>=1 && nx<=n && ny>=1 && ny<=n && visited[nx][ny]==0){
+                    visited[nx][ny]=1;
+                    qu.push({{nx,ny},d+1});
+                }
+            }
+        }return -1;
+    }
+};
