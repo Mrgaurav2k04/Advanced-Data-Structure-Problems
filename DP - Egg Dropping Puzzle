@@ -1,0 +1,32 @@
+class Solution {
+  public:
+
+    int solve(int n, int k,vector<vector<int>>& dp) {
+        if (k == 0 || k == 1)
+            return k;
+        if (n == 1)
+            return k;
+        if (dp[n][k] != -1)
+            return dp[n][k];
+        int ans = INT_MAX;
+        int low=1;
+        int high=k;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            int breakCase = solve(n - 1, mid - 1,dp);
+            int notBreakCase = solve(n, k - mid,dp);
+            int worst = 1 + max(breakCase, notBreakCase);
+            ans = min(ans, worst);
+            if (breakCase < notBreakCase) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return dp[n][k] = ans;
+    }
+    int eggDrop(int n, int k) {
+        vector<vector<int>> dp(n+1,vector<int>(k+1,-1));
+        return solve(n,k,dp);
+    }
+};
