@@ -1,0 +1,45 @@
+class Solution {
+public:
+    // Your manual binary search (lower_bound) is perfectly fine!
+    int lower(vector<int>& temp, int num) {
+        int low = 0;
+        int high = temp.size();
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (temp[mid] < num) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
+    }
+
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int n = envelopes.size();
+        if (n == 0) return 0;
+
+        // Step 1: Sort width asc, then height desc
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b) {
+            if (a[0] == b[0]) {
+                return a[1] > b[1]; // Descending height
+            }
+            return a[0] < b[0]; // Ascending width
+        });
+
+        // Step 2: LIS on Heights only
+        vector<int> temp;
+        for (int i = 0; i < n; i++) {
+            int h = envelopes[i][1]; // Use height, not area
+            
+            if (temp.empty() || h > temp.back()) {
+                temp.push_back(h);
+            } else {
+                int idx = lower(temp, h);
+                temp[idx] = h;
+            }
+        }
+        
+        return temp.size();
+    }
+};
