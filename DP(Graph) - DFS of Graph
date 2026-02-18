@@ -1,0 +1,33 @@
+class Solution {
+  public:
+    vector<int> dfs(vector<vector<int>>& adj) {
+        int V=adj.size();
+     vector<int> dfs_order;
+        vector<int> visited(V, 0);
+        stack<int> st;
+
+        // Start from node 0
+        st.push(0);
+
+        while (!st.empty()) {
+            int curr = st.top();
+            st.pop();
+
+            // A node might be pushed multiple times, so check visited here
+            if (!visited[curr]) {
+                visited[curr] = 1;
+                dfs_order.push_back(curr);
+            }
+
+            // Push neighbors into the stack
+            // Note: To match recursive DFS order (left-to-right), 
+            // you should push neighbors in reverse order.
+            for (auto it = adj[curr].rbegin(); it != adj[curr].rend(); ++it) {
+                if (!visited[*it]) {
+                    st.push(*it);
+                }
+            }
+        }
+        return dfs_order;
+    }
+};
