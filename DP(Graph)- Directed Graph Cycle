@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    bool solve(int curr,vector<bool>& pathVisited,vector<bool>& visited,vector<vector<int>>& dfs){
+        visited[curr]=true;
+        pathVisited[curr]=true;
+        for(int frd:dfs[curr]){
+            if(!visited[frd]){
+                if(solve(frd,pathVisited,visited,dfs)){
+                    return true;
+                }
+            }else if(pathVisited[frd]){
+                return true;
+            }
+        }pathVisited[curr]=false;
+        return false;
+    }
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        // code here
+        vector<bool> visited(V,false);
+        vector<bool> pathVisited(V, false);
+        vector<vector<int>> dfs(V);
+        for(auto& i:edges){
+            dfs[i[0]].push_back(i[1]);
+        }
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                if (solve(i, pathVisited, visited, dfs)) return true;
+            }
+        }
+        return false;
+    }
+};
