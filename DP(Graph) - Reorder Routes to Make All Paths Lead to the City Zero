@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int solvedfs(int curr,vector<vector<int>>& forward,vector<vector<int>>& backward,vector<int>& visited ){
+        visited[curr]=1;
+        int count =0;
+        for(int nei:forward[curr]){
+            if(visited[nei]==0){
+                count+=1+solvedfs(nei,forward,backward,visited);
+            }
+        }for(int nei:backward[curr]){
+            if(visited[nei]==0){
+                count+=solvedfs(nei,forward,backward,visited);
+            }
+        }return count;
+    }
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> forward(n);
+        vector<vector<int>> backward(n);
+        for(auto& it:connections){
+            forward[it[0]].push_back(it[1]);
+            backward[it[1]].push_back(it[0]);
+        }
+        vector<int> visited(n,0);
+        return solvedfs(0,forward,backward,visited);
+    }
+};
