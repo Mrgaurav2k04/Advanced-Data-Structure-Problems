@@ -1,0 +1,40 @@
+class Solution {
+  public:
+    bool check(int curr,vector<bool>& visited,vector<bool>& pathVisited,vector<bool>& isSafe,vector<vector<int>>& directed){
+        visited[curr]=true;
+    pathVisited[curr]=true;
+    for(auto a:directed[curr]){
+        if(!visited[a]){
+            if(check(a,visited,pathVisited,isSafe,directed)) return true;
+        }else if(pathVisited[a]){
+            return true;
+        }
+    }
+        pathVisited[curr]=false;
+        isSafe[curr]=true;
+        return false;
+    }
+    
+    vector<int> safeNodes(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>> directed(V);
+        vector<bool> visited(V, false);
+        vector<bool> pathVisited(V, false);
+        vector<bool> isSafe(V, false);
+        vector<int> result;
+        for(auto& it: edges){
+            directed[it[0]].push_back(it[1]);
+        }
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                check(i,visited,pathVisited,isSafe,directed);
+            }
+        }
+        for(int i=0;i<V;i++){
+            if(isSafe[i]){
+                result.push_back(i);
+            }
+        }return result;
+        
+    }
+};
