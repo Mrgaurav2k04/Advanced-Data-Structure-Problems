@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    bool solve(int curr,int parent,vector<bool>& visited,vector<vector<int>>& dfs){
+        visited[curr]=true;
+        for(int frd:dfs[curr]){
+            if(!visited[frd]){
+                if(solve(frd,curr,visited,dfs)){
+                    return true;
+                }
+            }else if(frd!=parent){
+                return true;
+            }
+        }return false;
+    }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<bool> visited(V,false);
+        vector<vector<int>> dfs(V);
+        for(auto& i:edges){
+            dfs[i[0]].push_back(i[1]);
+            dfs[i[1]].push_back(i[0]);
+        }
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                if (solve(i, -1, visited, dfs)) return true;
+            }
+        }
+        return false;
+    }
+};
