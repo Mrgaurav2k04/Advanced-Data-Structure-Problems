@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int largestPathValue(string colors, vector<vector<int>>& edges) {
+        int n=colors.length();
+        vector<vector<int>> adj(n);
+        vector<vector<int>> cnt(n,vector<int>(26,0));
+        vector<int> indegree(n);
+        for(auto it:edges){
+            adj[it[0]].push_back(it[1]);
+            indegree[it[1]]++;
+        }
+        queue<int> q;
+        int pro=0;
+        int mx=0;
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0){
+                q.push(i);
+            }
+        }while(!q.empty()){
+            int f=q.front();
+            q.pop();
+            pro++;
+            cnt[f][colors[f]-'a']++;
+            mx=max(mx,cnt[f][colors[f]-'a']);
+            for(int i:adj[f]){
+                indegree[i]--;
+                if(indegree[i]==0){
+                    q.push(i);
+                }
+                for(int j=0;j<26;j++){
+
+                cnt[i][j]=max(cnt[f][j],cnt[i][j]);
+            }
+            }
+        }return pro==n?mx:-1;
+    }
+};
