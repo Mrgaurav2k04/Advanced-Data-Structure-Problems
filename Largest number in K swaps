@@ -1,0 +1,39 @@
+
+
+class Solution {
+  public:
+    void solve(string& s, int k, string& xs, int start) {
+        // Base case: No more swaps or reached end of string
+        if (k == 0 || start == s.length()) return;
+
+        char maxDigit = *max_element(s.begin() + start, s.end());
+
+        // OPTIMIZATION: If current digit is already the max, 
+        // just move to the next index without using a swap.
+        if (s[start] == maxDigit) {
+            solve(s, k, xs, start + 1);
+        } 
+        else {
+            // Try swapping current digit with all future occurrences of maxDigit
+            for (int i = start + 1; i < s.size(); i++) {
+                if (s[i] == maxDigit) {
+                    swap(s[start], s[i]);
+
+                    // Update global maximum if current configuration is better
+                    if (s > xs) xs = s;
+
+                    // Recurse with one fewer swap
+                    solve(s, k - 1, xs, start + 1);
+
+                    // Backtrack
+                    swap(s[start], s[i]);
+                }
+            }
+        }
+    }
+    string findMaximumNum(string& s, int k) {
+        string xs=s;
+        solve(s, k, xs, 0);
+        return xs;
+    }
+};
