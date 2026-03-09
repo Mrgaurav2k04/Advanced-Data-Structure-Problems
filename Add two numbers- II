@@ -1,0 +1,51 @@
+In add two numbers (Q2) Don't reverse the lists 
+
+
+class Solution {
+public:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+    ListNode* reversel(ListNode* head){
+            ListNode* prev=NULL;
+            ListNode* curr=head;
+            ListNode* n=NULL;
+            while(curr!=NULL){
+                n=curr->next;
+                curr->next=prev;
+                prev=curr;
+                curr=n;
+            }
+            return prev;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* revl1=reversel(l1);
+        ListNode* revl2=reversel(l2);
+        ListNode* l3=new ListNode(0);
+        ListNode* curr=l3;
+        int c=0;
+        while(revl1!=nullptr || revl2!=nullptr || c!=0){
+            int sum=c;
+            if(revl1!=nullptr){
+                sum=sum+revl1->val;
+                revl1=revl1->next;
+            }if(revl2!=nullptr){
+                sum=sum+revl2->val;
+                revl2=revl2->next;
+            }
+            c=sum/10;
+            curr->next=new ListNode(sum%10);
+            curr=curr->next;
+        }
+        return reversel(l3->next);
+    }
+};
+    
