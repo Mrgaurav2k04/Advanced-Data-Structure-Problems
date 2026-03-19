@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.length()==0) return {};
+        vector<string> lett;
+        lett={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        vector<string> result;
+        queue<string> q;
+        q.push("");
+        for(char d: digits){
+            int x=d-'0';
+            string c=lett[x];
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                string curr=q.front();
+                q.pop();
+                for(char caa:c){
+                    q.push(curr+caa);
+                }
+            }
+        }while(!q.empty()){
+            result.push_back(q.front());
+            q.pop();
+        }
+        return result;
+        
+    }
+};
