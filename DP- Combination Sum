@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void getsubsets(int n,int target,vector<int>& curr,vector<vector<int>>& result,vector<vector<int>>& dp,vector<int>& candidates){
+        if (target == 0) {
+        result.push_back(curr);
+        return;
+        }
+        if (n == 0) return;
+        if(target>=candidates[n-1] && dp[n][target-candidates[n-1]]>0){
+            curr.push_back(candidates[n-1]);
+            getsubsets(n,target-candidates[n-1],curr,result,dp,candidates);
+            curr.pop_back();
+        }if(dp[n-1][target]>0){
+            getsubsets(n-1,target,curr,result,dp,candidates);
+        }
+    }
+    int solve(vector<vector<int>>& dp,int n,vector<int>& candidates,int target){
+        if(n==0){
+            if(target==0){
+                return 1;
+            }else return 0;
+        }if(dp[n][target]!=-1) return dp[n][target];
+        if(candidates[n-1]<=target){
+            dp[n][target]=solve(dp,n,candidates,target-candidates[n-1])+solve(dp,n-1,candidates,target);
+        }else{
+            dp[n][target]=solve(dp,n-1,candidates,target);
+        }return dp[n][target];
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\
+        sort(candidates.begin(),candidates.end());
+        int n=candidates.size();
+        vector<vector<int>> dp(n+1,vector<int>(target+1,-1));
+        for(int i = 0; i <= n; i++) dp[i][0] = 1;
+        solve(dp,n,candidates,target);
+        vector<int> curr;
+        vector<vector<int>> result;
+        if(dp[n][target]>0){
+            getsubsets(n,target,curr,result,dp,candidates);
+        }
+        return result;
+        }
+};
